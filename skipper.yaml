@@ -1,0 +1,12 @@
+registry: quay.io
+build-container-image: simplesrv-build
+
+containers:
+  simplesrv-build: Dockerfile.simplesrv-build
+
+volumes: 
+  # cache for builds
+  - $HOME/.cache/go-build:/go/pkg/mod
+
+env:
+  GOCACHE: "/go/pkg/mod"
