@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simplesrv
+  labels:
+    app: simplesrv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simplesrv 
+  template:
+    metadata:
+      labels:
+        app: simplesrv
+    spec:
+      containers:
+      - name: simplesrv
+        image: registry.local:5000/simplesrv
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: simplesrv
+  name: simplesrv
+spec:
+  ports:
+  - name: 80-8090 
+    port: 80
+    protocol: TCP
+    targetPort: 8090
+  selector:
+    app: simplesrv
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simplesrv
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: simplesrv
+            port:
+              number: 80
