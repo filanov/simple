@@ -1,0 +1,5 @@
+FROM golang:1.17
+
+COPY build/simplesrv /simplesrv
+
+CMD ["/simplesrv"]

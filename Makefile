@@ -1,5 +1,7 @@
 __root=$(shell pwd)
 
+SERVICE=simplesrv:latest
+
 .PHONY: build
 
 build:
@@ -8,6 +10,9 @@ build:
 
 clear:
 	rm -rf build
+
+contianer-build: build
+	podman build -f Dockerfile.simplesrv . -t $(SERVICE)
 
 generate:
 	rm -rf models restapi
